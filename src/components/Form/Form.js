@@ -1,23 +1,25 @@
 import './Form.css';
 import { useState } from 'react';
 
-function Form ({addIdea}) {
+function Form({addIdea}){
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  function submitIdeas(event) {
+  function submitIdeas(event){
     event.preventDefault();
+    // create constant with current value of title and description, set id to current date
     const newIdea = {
       id: Date.now(),
       title,
       description
-    };
-
+    }
+    // call the addIdea method and pass in newIdea
     addIdea(newIdea);
+    //clear the input
     clearInput();
   }
 
-  function clearInput() {
+  function clearInput(){
     setTitle("");
     setDescription("");
   }
@@ -29,7 +31,7 @@ function Form ({addIdea}) {
         placeholder='Title'
         name='title'
         value={title}
-        onChange={event => setTitle(event.target.value)}
+        onChange= {event => setTitle(event.target.value)}
       />
 
       <input
