@@ -5,7 +5,15 @@ function Form({addIdea}){
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  function submitIdeas(event){
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value)
+  };
+
+  const handleSubmit = (event) =>{
     event.preventDefault();
 
     const newIdea = {
@@ -14,8 +22,11 @@ function Form({addIdea}){
       description
     }
 
-    addIdea(newIdea);
-    clearInput();
+    if(newIdea.title){
+      addIdea(newIdea);
+      clearInput();
+    }
+
   }
 
   function clearInput(){
@@ -30,7 +41,7 @@ function Form({addIdea}){
         placeholder='Title'
         name='title'
         value={title}
-        onChange= {event => setTitle(event.target.value)}
+        onChange= {handleTitleChange}
       />
 
       <input
@@ -38,10 +49,10 @@ function Form({addIdea}){
         placeholder='Description'
         name='description'
         value={description}
-        onChange={event => setDescription(event.target.value)}
+        onChange={handleDescriptionChange}
       />
 
-      <button onClick={event => submitIdeas(event)}>SUBMIT</button>
+      <button onClick={handleSubmit}>SUBMIT</button>
     </form>
   );
 }
