@@ -7,15 +7,14 @@ function Form({addIdea}){
 
   function submitIdeas(event){
     event.preventDefault();
-    // create constant with current value of title and description, set id to current date
+
     const newIdea = {
       id: Date.now(),
       title,
       description
     }
-    // call the addIdea method and pass in newIdea
+
     addIdea(newIdea);
-    //clear the input
     clearInput();
   }
 

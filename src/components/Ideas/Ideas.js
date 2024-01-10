@@ -2,9 +2,7 @@ import './Ideas.css';
 import Card from '../Card/Card.js';
 
 function Ideas({ideas, deleteIdea}){
-  //iterate through all ideas and call Card component
   const ideaCards = ideas.map(idea => {
-    // call the Card component
     return (
       <Card
         title={idea.title}
