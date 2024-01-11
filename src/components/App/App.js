@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Form from '../Form/Form';
 import Ideas from '../Ideas/Ideas';
@@ -13,6 +13,24 @@ function App(){
   function deleteIdea(id){
     setIdeas(ideas => ideas.filter(idea => idea.id !== id));
   }
+
+  async function getIdeas(){
+    const baseUrl = 'http://localhost:3001/api/v1/ideas';
+
+    try{
+      const response = await fetch(baseUrl);
+      if (response.ok){
+        const jsonResponse = await response.json();
+        setIdeas([...ideas, ...jsonResponse]);
+      }
+    } catch(error){
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getIdeas();
+  }, [])
 
   return (
     <main className='App'>
