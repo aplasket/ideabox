@@ -35,9 +35,15 @@ function App(){
         body: JSON.stringify(newIdea)
       })
 
-      if(response.ok){
-        const jsonResponse = await response.json();
+      const jsonResponse = await response.json();
+
+      if (response.ok){
         setIdeas([...ideas, jsonResponse]);
+      }
+
+      if(!response.ok){
+        setError(jsonResponse.message);
+        console.log(jsonResponse.message);
       }
     } catch (error) {
       setError(error.message);
@@ -47,7 +53,7 @@ function App(){
 
   const deleteIdea = async (id) => {
     try {
-      const response = await fetch(baseUrl + `/${id}`, { method: 'DELETE' });
+      await fetch(baseUrl + `/${id}`, { method: 'DELETE' });
       const filteredIdeas = ideas.filter(idea => idea.id !== id);
       setIdeas(filteredIdeas);
     } catch (error) {
