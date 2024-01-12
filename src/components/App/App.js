@@ -41,18 +41,18 @@ function App(){
       }
     } catch (error) {
       setError(error.message);
-      console.log(error.message);
+      console.log(error);
     }
   }
 
-  async function deleteIdea(id){
+  const deleteIdea = async (id) => {
     try {
-      const response = await fetch(baseUrl, { method: 'DELETE' });
+      const response = await fetch(baseUrl + `/${id}`, { method: 'DELETE' });
       const filteredIdeas = ideas.filter(idea => idea.id !== id);
       setIdeas(filteredIdeas);
     } catch (error) {
       setError(error.message);
-      console.log(error.message);
+      console.log(error);
     }
   }
 
