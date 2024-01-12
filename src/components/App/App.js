@@ -8,36 +8,52 @@ function App(){
   const [error, setError] = useState('');
   const baseUrl = 'http://localhost:3001/api/v1/ideas';
 
-  function getIdeas() {
-    fetch(baseUrl)
-    .then(response => response.json())
-    .then(data => setIdeas([...ideas, ...data]))
-    .catch(error => setError(error.message))
+  async function getIdeas(){
+      try{
+        const response = await fetch(baseUrl);
+        if (response.ok){
+          const jsonResponse = await response.json();
+          setIdeas([...ideas, ...jsonResponse]);
+        }
+      } catch (error) {
+        setError(error.message);
+        console.log(error);
+      }
+    }
+
+    useEffect(() => {
+      getIdeas();
+    }, [])
+
+  async function addIdea(newIdea){
+    try {
+      const response = await fetch(baseUrl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newIdea)
+      })
+
+      if(response.ok){
+        const jsonResponse = await response.json();
+        setIdeas([...ideas, jsonResponse]);
+      }
+    } catch (error) {
+      setError(error.message);
+      console.log(error.message);
+    }
   }
 
-  useEffect(() => {
-    getIdeas();
-  }, [])
-
-  function addIdea(newIdea) {
-    fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newIdea),
-    })
-    .then(response => response.json())
-    .then(data => setIdeas([...ideas, data]))
-    .catch(error => setError(error.message))
-  }
-
-  function deleteIdea(id){
-    fetch(baseUrl, {method: 'DELETE'})
-    .then(response => {
+  async function deleteIdea(id){
+    try {
+      const response = await fetch(baseUrl, { method: 'DELETE' });
       const filteredIdeas = ideas.filter(idea => idea.id !== id);
       setIdeas(filteredIdeas);
-    }).catch(error => setError(error.message));
+    } catch (error) {
+      setError(error.message);
+      console.log(error.message);
+    }
   }
 
   return (
@@ -49,6 +65,7 @@ function App(){
       <Ideas ideas={ideas} deleteIdea={deleteIdea}/>
     </main>
   );
+
 }
 
 export default App;
